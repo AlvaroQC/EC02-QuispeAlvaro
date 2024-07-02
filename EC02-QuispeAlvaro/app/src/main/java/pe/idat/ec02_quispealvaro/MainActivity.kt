@@ -11,7 +11,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import pe.idat.ec02_quispealvaro.ui.theme.EC02QuispeAlvaroTheme
+import pe.idat.ec02_quispealvaro.ui.theme.Formulario
+import pe.idat.ec02_quispealvaro.ui.theme.Menu
+import pe.idat.ec02_quispealvaro.ui.theme.listado
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,29 +25,30 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EC02QuispeAlvaroTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "Menu",
+                    builder = {
+                        composable("Menu"){
+                            Menu(navController)
+                        }
+                        composable("Formulario"){
+                            Formulario(navController)
+                        }
+                        composable("Listado"){
+                            listado(navController)
+                        }
+
+                    })
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     EC02QuispeAlvaroTheme {
-        Greeting("Android")
     }
 }
